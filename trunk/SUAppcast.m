@@ -67,7 +67,7 @@
 	{
 		NSLog(@"The given data is not an RSS feed; trying to parse it as hAtom.");
 		
-		HAFeed *hAtomFeed = [[HAFeed alloc] initWithURL:url];
+		HAFeed *hAtomFeed = [[[HAFeed alloc] initWithURL:url] autorelease];
 		if([hAtomFeed isValid])
 		{
 			// Set up all the appcast items
@@ -78,7 +78,6 @@
 				[tempItems addObject:[[[SUAppcastItem alloc] initWithDictionary:current] autorelease]];
 			}
 			items = [[NSArray arrayWithArray:tempItems] retain];
-			[hAtomFeed release];
 			
 			if ([delegate respondsToSelector:@selector(appcastDidFinishLoading:)])
 				[delegate performSelectorOnMainThread:@selector(appcastDidFinishLoading:) withObject:self waitUntilDone:NO];
