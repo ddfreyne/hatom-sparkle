@@ -12,6 +12,38 @@
 #import "HAFeed.h"
 
 
+/*
+
+The HAFeed class represents a hAtom feed. It is not a general-purpose hAtom
+parser; it is specifically aimed at hAtom feeds with enclosures, and possibly
+Sparkle extensions such as version, short version, MD5 sum and DSA signature.
+
+When creating a HAFeed instance, the feed will be downloaded from the URL
+passed to -initWithURL: and parsed immediately. The -entries method returns an
+array of dictionaries in a RSS 2-esque format, so Sparkle can simply use this
+data without needing it to be converted first.
+
+This implementation is not complete. Some missing features include:
+- Short version strings
+- MD5 sums
+- DSA signatures
+- External release notes link (not sure whether this is useful)
+
+The -parseURL: method uses NSXMLDocument, but it can also parse HTML (as well
+as XHTML). It will first tidy the HTML and convert it to XHTML if necessary,
+so empty elements like <br> will not cause trouble, and non-valid documents
+shouldn't be a problem either.
+
+This parser uses the downloads microformat proposed on the microformats wiki
+(http://microformats.org/wiki/downloads-brainstorming). This proposal is
+likely to change, and this implementation will be kept up-to-date.
+
+For feedback on the downloads microformat, check the wiki. For feedback on
+this implementation, use the issue tracker on the Google Code project at
+http://code.google.com/p/hatom-sparkle/issues/list.
+
+*/
+
 @implementation HAFeed
 
 - (void)parseURL:(NSURL *)aURL
@@ -65,10 +97,10 @@
 		if(!enclosureURL) { isValid = NO; return; }
 
 		// Build dictionary
-		// TODO add sparkle:dsaSignature
-		// TODO add sparkle:md5sum
 		// TODO add sparkle:releaseNotesLink (maybe)
-		// TODO add sparkle:shortVersionString
+		// TODO add enclosure->sparkle:dsaSignature
+		// TODO add enclosure->sparkle:md5sum
+		// TODO add senclosure->parkle:shortVersionString
 		NSDictionary *enclosureDictionary = [NSDictionary dictionaryWithObjectsAndKeys:
 			enclosureURL,	@"url",
 			version, 		@"version",
