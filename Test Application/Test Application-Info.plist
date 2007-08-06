@@ -23,6 +23,6 @@
 	<key>NSPrincipalClass</key>
 	<string>NSApplication</string>
 	<key>SUFeedURL</key>
-	<string>http://www.ironcoder.org/projects/sparkleplus/profileInfo.php</string>
+	<string>http://hatom-sparkle.googlecode.com/svn/samples/1.html</string>
 </dict>
 </plist>
